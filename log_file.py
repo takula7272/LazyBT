@@ -12,7 +12,11 @@ logcat_filename=[]
 #asusevent file name block
 asuseventlog_filename=[]
 
-def parse_logfile_name(inputdir='.'):
+def parse_logfile_name(inputdir='.', force_parsing=False):
+    if (len(bugreport_filename) or len(logcat_filename) or len(asuseventlog_filename)):
+        if (force_parsing==False):
+            return True
+
     target_bugreport=False
     for dirPath, dirNames, fileNames in os.walk(inputdir):
         for f in fileNames:
@@ -35,6 +39,10 @@ def parse_logfile_name(inputdir='.'):
                 if debug:print(os.path.join(dirPath, f))
                 asuseventlog_filename.append(os.path.join(dirPath, f))
 
+    if (len(logcat_filename)):
+        logcat_filename.sort()
+        logcat_filename.reverse()
+
     if not (len(bugreport_filename) or len(logcat_filename) or len(asuseventlog_filename)):
         return False
     else:
@@ -51,4 +59,3 @@ def parse_logcat_file_name(inputdir='.'):
         return False
     else:
         return True
-

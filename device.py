@@ -128,11 +128,11 @@ def catch_device():
     global inputdir, force_parsing
     if os.path.exists(os.path.join(inputdir,config.Device_File)) and not force_parsing:
         get_device_from_file()
-    else:
+    elif not (len(log_file.bugreport_filename) or len(log_file.logcat_filename) or len(log_file.asuseventlog_filename)):
         if not log_file.parse_logfile_name(inputdir):
             print("No related file\n")
             return
-        get_device_from_log()
+    get_device_from_log()
 
 def main(argv):
     opts, args=getopt.getopt(argv,"n:m:d:r")
@@ -171,10 +171,3 @@ def get_device(dump_type, value, target_device_set):
     elif dump_type==DUMP_BY_MAC:
         for a, b in device_set.items():
                 target_device_set[a]=b
-
-
-
-
-
-
-
