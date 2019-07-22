@@ -113,16 +113,16 @@ def get_device_from_log():
 
     set_device_to_file()
 
-def dump_device(dump_type, value):
+def dump_device(dump_type, target):
     if dump_type==DUMP_ALL:
         for a, b in device_set.items():
             print("{0} - {1}".format(a, b))
     elif dump_type==DUMP_BY_NAME:
         for a, b in device_set.items():
-            if str(value) in b: print("{0} - {1}".format(a, b))
+            if str(target) in b: print("{0} - {1}".format(a, b))
     elif dump_type==DUMP_BY_MAC:
         for a, b in device_set.items():
-            if str(value) in a: print("{0} - {1}".format(a, b))
+            if str(target) in a: print("{0} - {1}".format(a, b))
 
 def catch_device():
     global inputdir, force_parsing
@@ -138,18 +138,21 @@ def main(argv):
     opts, args=getopt.getopt(argv,"n:m:d:r")
     global inputdir, force_parsing
     dump_type=DUMP_ALL
+    target=''
     for op, value in opts:
         if op =="-d":
             inputdir=value
         elif op=="-n":
             dump_type=DUMP_BY_NAME
+            target=value
         elif op=="-m":
             dump_type=DUMP_BY_MAC
+            target=value
         elif op=="-r":
             force_parsing=True
 
     catch_device()
-    dump_device(dump_type, value)
+    dump_device(dump_type, target)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
